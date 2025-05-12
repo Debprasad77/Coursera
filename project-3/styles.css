@@ -11,15 +11,12 @@ body {
 /* Skip to Main Content */
 .skip-link {
     position: absolute;
-    top: -40px;
-    left: 0;
-    background: #2a5f7f;
-    color: white !important;
+    top: -10px;
+    color: rgb(225, 242, 76) !important;
     padding: 10px 15px;
-    z-index: 100;
     text-decoration: none;
-    border-radius: 0 0 4px 4px;
-    transition: top 0.3s ease;
+    font-weight: 600;
+    font-size: larger;
 }
 
 .skip-link:focus {
