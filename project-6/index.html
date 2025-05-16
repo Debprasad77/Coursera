@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFrame – Accessible Photo Gallery</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Skip Link */
+        .skip-link {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #2c3e50;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        nav a:hover, nav a:focus {
+            background-color: #3498db;
+            outline: none;
+        }
+        nav a.active {
+            background-color: #2980b9;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        h2 {
+            color: #3498db;
+            text-align: center;
+            margin-top: 0;
+            font-weight: normal;
+        }
+
+        /* Gallery Styles */
+        .preview {
+            width: 80%;
+            max-width: 800px;
+            height: 400px;
+            margin: 2rem auto;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+            border: 3px solid #3498db;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 2rem auto;
+        }
+        .gallery figure {
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .gallery figure:hover {
+            transform: translateY(-5px);
+        }
+        .gallery img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid #3498db;
+        }
+        .gallery img:focus {
+            outline: 3px solid #4CAF50;
+            outline-offset: 2px;
+        }
+        figcaption {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        footer p {
+            margin: 0.5rem 0;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        .social-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Accessibility Focus Styles */
+        :focus {
+            outline: 3px solid #4CAF50;
+            outline-offset: 2px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .preview {
+                height: 300px;
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body onload="initGallery()">
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+      <!-- Navigation Bar -->
+    <nav aria-label="Main navigation">
+        
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <h1>FocusFrame</h1>
+        <h2>An Accessible Photo Gallery</h2>
+        
+        <div class="preview" id="image" tabindex="0">
+            Hover over or focus on an image below to display here.
+        </div>
+
+        <div class="gallery">
+            <figure>
+                <img src="./images/photo1.jpg" 
+                     alt="Beautiful nature landscape with mountains and a lake" 
+                     class="previewPic"
+                     tabindex="0"
+                     onmouseover="upDate(this)" 
+                     onmouseout="undo()"
+                     onfocus="upDate(this)"
+                     onblur="undo()">
+                <figcaption>Nature Landscape</figcaption>
+            </figure>
+
+            <figure>
+                <img src="./images/photo2.jpg" 
+                     alt="City skyline at night with illuminated buildings" 
+                     class="previewPic"
+                     tabindex="0"
+                     onmouseover="upDate(this)" 
+                     onmouseout="undo()"
+                     onfocus="upDate(this)"
+                     onblur="undo()">
+                <figcaption>City Skyline</figcaption>
+            </figure>
+
+            <figure>
+                <img src="./images/photo3.jpg" 
+                     alt="Wild animals in their natural habitat" 
+                     class="previewPic"
+                     tabindex="0"
+                     onmouseover="upDate(this)" 
+                     onmouseout="undo()"
+                     onfocus="upDate(this)"
+                     onblur="undo()">
+                <figcaption>Wildlife</figcaption>
+            </figure>
+
+            <figure>
+                <img src="./images/photo5.jpg" 
+                     alt="Modern architectural building with unique design" 
+                     class="previewPic"
+                     tabindex="0"
+                     onmouseover="upDate(this)" 
+                     onmouseout="undo()"
+                     onfocus="upDate(this)"
+                     onblur="undo()">
+                <figcaption>Architecture</figcaption>
+            </figure>
+
+            <figure>
+                <img src="./images/photo4.jpg" 
+                     alt="Delicious gourmet meal on a plate" 
+                     class="previewPic"
+                     tabindex="0"
+                     onmouseover="upDate(this)" 
+                     onmouseout="undo()"
+                     onfocus="upDate(this)"
+                     onblur="undo()">
+                <figcaption>Gourmet Food</figcaption>
+            </figure>
+
+            <figure>
+                <img src="./images/photo6.png" 
+                     alt="Scenic travel destination with beautiful views" 
+                     class="previewPic"
+                     tabindex="0"
+                     onmouseover="upDate(this)" 
+                     onmouseout="undo()"
+                     onfocus="upDate(this)"
+                     onblur="undo()">
+                <figcaption>Travel Destination</figcaption>
+            </figure>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook"><span aria-hidden="true">FB</span></a>
+            <a href="#" aria-label="Twitter"><span aria-hidden="true">TW</span></a>
+            <a href="#" aria-label="Instagram"><span aria-hidden="true">IG</span></a>
+        </div>
+        <p>&copy; 2023 FocusFrame Photo Gallery. All rights reserved.</p>
+        <p>Designed with accessibility in mind.</p>
+    </footer>
+
+    <script src="js/gallery.js"></script>
+</body>
+</html>
